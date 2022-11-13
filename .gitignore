@@ -1,0 +1,10 @@
+.env
+venv
+venv/bin/activate.csh
+real_estate_scraper/real_estate_scraper/__pycache__/__init__.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/__pycache__/pipelines.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/__pycache__/settings.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/spiders/__pycache__/__init__.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/spiders/__pycache__/pazar3spider.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/spiders/__pycache__/reklama5Spider.cpython-38.pyc
+real_estate_scraper/real_estate_scraper/__pycache__/items.cpython-38.pyc
