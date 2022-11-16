@@ -15,6 +15,7 @@ class Pazar3Items(scrapy.Item):
     area = scrapy.Field()
     location = scrapy.Field()
     link = scrapy.Field()
+    area_from_title = scrapy.Field()
 
 
 class Reklama5Items(scrapy.Item):

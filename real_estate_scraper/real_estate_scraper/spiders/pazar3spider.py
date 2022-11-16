@@ -12,7 +12,7 @@ class Pazar3Spider(scrapy.Spider):
     # start_urls = [
     #    'https://www.pazar3.mk/oglasi/zivealista/stanovi/se-prodava/skopje?Page='+str(i) for i in range(1, 10)]
     start_urls = [
-        'https://www.pazar3.mk/oglasi/zivealista/stanovi/skopje']
+        'https://www.pazar3.mk/oglasi/zivealista/stanovi/se-prodava/skopje']
 
     def parse(self, response):
         items = Pazar3Items()
@@ -23,8 +23,9 @@ class Pazar3Spider(scrapy.Spider):
             link = ad.css('h2 a::attr(href)').extract_first()
             price = ad.css('p.list-price::text').extract_first(), 'mk'
             num_of_rooms = ad.css(
-                '.title div:nth-of-type(1) b::text').extract_first()
-            area = ad.css('.title > div:nth-of-type(2)::text').extract_first()
+                '.title > div:nth-of-type(1)::text').extract_first()
+            area = ad.css(
+                'div.new:nth-of-type(n+2) .title div:nth-of-type(2)::text').extract_first()
             location = ad.css(
                 'a.link-html5:nth-of-type(n+3)::text').extract_first().strip()
 
@@ -34,23 +35,29 @@ class Pazar3Spider(scrapy.Spider):
                 items['price'] = cyrtranslit.to_latin(price, 'mk')
             except:
                 items['price'] = 'N/A'
+
             try:
                 items['num_of_rooms'] = cyrtranslit.to_latin(
                     num_of_rooms, 'mk')
             except:
-                items['num_of_rooms'] = 'N/A'
-            try:
-                items['area'] = cyrtranslit.to_latin(area, 'mk')
-            except:
-                items['area'] = 'N/A'
+                items['num_of_rooms'] = None
+
             try:
                 items['location'] = cyrtranslit.to_latin(location, 'mk')
             except:
                 items['location'] = 'N/A'
 
+            try:
+                items['num_of_rooms'] = num_of_rooms
+            except:
+                items['number_of_rooms'] = None
+            try:
+                items['area'] = cyrtranslit.to_latin(area, 'mk')
+            except:
+                items['area'] = None
             yield items
         next_page = response.css(
             'li:nth-of-type(11) a.link-html5::attr(href)').get()
-        if '?Page=10' not in next_page:
+        if '?Page=30' not in next_page:
             print("NEXT PAGE IS", next_page)
             yield response.follow(next_page, callback=self.parse)

@@ -33,7 +33,6 @@ class Reklama5Pipeline:
         self.collection.insert_one(dict(item))
 
     def spider_closed(self, spider, reason):
-        print('CONN IS CLOSEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
         self.client.close()
 
 

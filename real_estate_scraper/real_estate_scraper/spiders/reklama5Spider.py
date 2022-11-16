@@ -1,6 +1,7 @@
 import scrapy
 from ..items import Reklama5Items
 import cyrtranslit
+import time
 import re
 
 
@@ -15,6 +16,7 @@ class reklama5Spider(scrapy.Spider):
         'https://reklama5.mk/Search?city=1&cat=159&q=&f45_from=&f45_to=&f46_from=&f46_to=&priceFrom=&priceTo=&f48_from=&f48_to=&f47=&f10029=&f10030=&f10040=&sell=0&sell=1&buy=0&rent=0&includeforrent=0&trade=0&includeOld=0&includeNew=0&private=0&company=0&page=1']
 
     def parse(self, response):
+        time.sleep(2)
         all_links = response.css('a.SearchAdTitle::attr(href)').extract()
         all_links = [self.reklama_5_base_url+i for i in all_links]
         for link in all_links:
@@ -22,10 +24,10 @@ class reklama5Spider(scrapy.Spider):
         next_page = self.reklama_5_base_url + \
             response.css('a.page-link[title]::attr(href)').get()
 
-        match_obj = re.search('page=[1-9]', next_page)
+        match_obj = re.search('page=[0-9]', next_page)
         page_number = int(next_page[match_obj.start()+5:match_obj.end()])
 
-        if page_number <= 9:
+        if page_number <= 10:
             print("NEXT PAGE IS", next_page)
             yield response.follow(next_page, callback=self.parse)
 
